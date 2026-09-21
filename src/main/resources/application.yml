@@ -1,0 +1,19 @@
+server:
+  port: ${PORT:8081}
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:oracle:thin:@//localhost:1521/FREEPDB1}
+    username: ${RESERVATIONS_DB_USER:ANDES_RESERVATIONS}
+    password: ${RESERVATIONS_DB_PASSWORD:}
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update # Solo demostración
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+internal:
+  token: ${INTERNAL_TOKEN:}
+catalog:
+  base-url: ${CATALOG_URL:http://localhost:8082}
