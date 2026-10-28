@@ -1,5 +1,6 @@
 server:
   port: ${PORT:8081}
+spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
@@ -9,7 +10,6 @@ server:
       simple:
         acknowledge-mode: manual
         default-requeue-rejected: false
-spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://andesstay-db.cmzs4nqytikw.us-east-1.rds.amazonaws.com:5432/andesstay}
     username: ${RESERVATIONS_DB_USER:postgres}
@@ -21,5 +21,10 @@ spring:
       ddl-auto: update # Solo demostracion
 internal:
   token: ${INTERNAL_TOKEN:}
+rabbitmq:
+  management-url: ${RABBITMQ_MANAGEMENT_URL:http://localhost:15672}
+  username: ${RABBITMQ_USER:andesstay}
+  password: ${RABBITMQ_PASSWORD:andesstay-dev-only}
+# Dirección de ms-andesstay-catalog, al que se llama para ocupar y liberar unidades.
 catalog:
   base-url: ${CATALOG_URL:http://localhost:8082}
