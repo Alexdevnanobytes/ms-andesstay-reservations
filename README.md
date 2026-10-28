@@ -4,7 +4,7 @@ Microservicio de reservas de AndesStay. Gestiona el ciclo de vida de una reserva
 
 - **Puerto por defecto:** 8081
 - **Stack:** Java 17, Spring Boot 3.4, Spring Data JPA, PostgreSQL (AWS RDS)
-- **Tabla:** `as_reservations` (la crea Hibernate con `ddl-auto: update`, solo para demostración)
+- **Tabla:** `as_reservations` (la crean las migraciones Flyway de `src/main/resources/db/migration`; Hibernate solo la valida con `ddl-auto: validate`)
 - **Acceso:** es un servicio interno. Solo debe ser accesible dentro de la red privada y no debe exponerse directamente a internet.
 
 ## Autenticación interna

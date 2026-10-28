@@ -1,7 +1,7 @@
 package cl.andesstay.reservations;
 
 // Entidad JPA: cada objeto Reservation es una fila de la tabla AS_RESERVATIONS en PostgreSQL.
-// Hibernate crea y actualiza la tabla automáticamente (ddl-auto: update en application.yml).
+// Las tablas las crea y modifica Flyway (src/main/resources/db/migration); Hibernate solo valida (ddl-auto: validate).
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
