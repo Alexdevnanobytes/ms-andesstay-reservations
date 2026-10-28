@@ -15,7 +15,10 @@
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-amqp</artifactId></dependency>
     <!-- Driver JDBC de PostgreSQL (solo se necesita al ejecutar). -->
     <dependency><groupId>org.postgresql</groupId><artifactId>postgresql</artifactId><scope>runtime</scope></dependency>
-    <!-- Solo para pruebas: JUnit y Mockito, y H2, una base en memoria para no depender de RDS en los tests. -->
+      <!-- Flyway: migraciones versionadas de la base (reemplaza ddl-auto: update). -->
+      <dependency><groupId>org.flywaydb</groupId><artifactId>flyway-core</artifactId></dependency>
+      <dependency><groupId>org.flywaydb</groupId><artifactId>flyway-database-postgresql</artifactId></dependency>
+      <!-- Solo para pruebas: JUnit y Mockito, y H2, una base en memoria para no depender de RDS en los tests. -->
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
     <dependency><groupId>com.h2database</groupId><artifactId>h2</artifactId><scope>test</scope></dependency>
   </dependencies>

@@ -21,10 +21,19 @@ spring:
   # JPA/Hibernate: open-in-view desactivado (la conexión a la base no queda abierta durante toda la petición).
   jpa:
     open-in-view: false
-    # ddl-auto: update = Hibernate crea o ajusta las tablas al arrancar. Útil para la demo;
-    # en producción se usarían migraciones versionadas.
+    # validate: Hibernate solo comprueba que las entidades calcen con las tablas.
+    # Las tablas las crea y modifica Flyway, no Hibernate.
     hibernate:
-      ddl-auto: update # Solo demostracion
+      ddl-auto: validate
+  # Flyway: migraciones versionadas en src/main/resources/db/migration.
+  # table: historial propio de este servicio, porque catalog comparte la base y tendrá el suyo.
+  # baseline-on-migrate con baseline-version 0: en una base que ya tiene tablas, Flyway parte
+  # desde 0 y aplica V1 (que no cambia nada si la tabla existe) y V2.
+  flyway:
+    enabled: true
+    table: flyway_schema_history_reservations
+    baseline-on-migrate: true
+    baseline-version: "0"
 # Token compartido con el BFF y con catalog (header X-Internal-Token).
 internal:
   token: ${INTERNAL_TOKEN:}
