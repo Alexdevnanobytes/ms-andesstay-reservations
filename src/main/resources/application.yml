@@ -1,5 +1,8 @@
+# Configuración del microservicio de reservas. ${VARIABLE:valor} = variable de entorno o valor por defecto.
 server:
   port: ${PORT:8081}
+# Conexión a la base de datos PostgreSQL en AWS RDS. La contraseña nunca se escribe aquí:
+# llega por la variable RESERVATIONS_DB_PASSWORD (archivo .env en el EC2).
 spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
@@ -15,10 +18,14 @@ spring:
     username: ${RESERVATIONS_DB_USER:postgres}
     password: ${RESERVATIONS_DB_PASSWORD:}
     driver-class-name: org.postgresql.Driver
+  # JPA/Hibernate: open-in-view desactivado (la conexión a la base no queda abierta durante toda la petición).
   jpa:
     open-in-view: false
+    # ddl-auto: update = Hibernate crea o ajusta las tablas al arrancar. Útil para la demo;
+    # en producción se usarían migraciones versionadas.
     hibernate:
       ddl-auto: update # Solo demostracion
+# Token compartido con el BFF y con catalog (header X-Internal-Token).
 internal:
   token: ${INTERNAL_TOKEN:}
 rabbitmq:
