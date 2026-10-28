@@ -2,6 +2,8 @@ package cl.andesstay.reservations;
 
 import java.time.LocalDate;
 import java.util.List;
+import cl.andesstay.reservations.messaging.ReservationEventPublisher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +13,13 @@ import org.springframework.web.server.ResponseStatusException;
 public class ReservationService {
     private final ReservationRepository repository;
     private final CatalogClient catalog;
-    public ReservationService(ReservationRepository repository, CatalogClient catalog) {
-        this.repository = repository; this.catalog = catalog;
+    private final ReservationEventPublisher events;
+    @Autowired
+    public ReservationService(ReservationRepository repository, CatalogClient catalog, ReservationEventPublisher events) {
+        this.repository = repository; this.catalog = catalog; this.events = events;
+    }
+    ReservationService(ReservationRepository repository, CatalogClient catalog) {
+        this.repository = repository; this.catalog = catalog; this.events = null;
     }
     private void validatePeriod(LocalDate checkIn, LocalDate checkOut) {
         if (checkIn == null || checkOut == null || !checkIn.isBefore(checkOut))
@@ -29,7 +36,9 @@ public class ReservationService {
     @Transactional
     public Reservation create(ReservationsController.CreateRequest data) {
         validatePeriod(data.checkIn(), data.checkOut());
-        return repository.save(new Reservation(data.guestId(), data.unitId(), data.checkIn(), data.checkOut()));
+        Reservation saved = repository.save(new Reservation(data.guestId(), data.unitId(), data.checkIn(), data.checkOut()));
+        if (events != null) events.publishAfterCommit(saved, "reservation.created");
+        return saved;
     }
     @Transactional
     public Reservation update(String id, ReservationsController.UpdateRequest data) {
@@ -64,7 +73,9 @@ public class ReservationService {
         if (release) catalog.release(id);
         try {
             reservation.setStatus(next);
-            return repository.saveAndFlush(reservation);
+            Reservation saved = repository.saveAndFlush(reservation);
+            if (events != null) events.publishAfterCommit(saved, "reservation.status." + next.name().toLowerCase());
+            return saved;
         } catch (RuntimeException ex) {
             // Compensación de errores de escritura local; no reemplaza una transacción distribuida.
             if (confirm) catalog.release(id);

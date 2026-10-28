@@ -1,5 +1,14 @@
 server:
   port: ${PORT:8081}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:andesstay}
+    password: ${RABBITMQ_PASSWORD:andesstay-dev-only}
+    listener:
+      simple:
+        acknowledge-mode: manual
+        default-requeue-rejected: false
 spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://andesstay-db.cmzs4nqytikw.us-east-1.rds.amazonaws.com:5432/andesstay}
