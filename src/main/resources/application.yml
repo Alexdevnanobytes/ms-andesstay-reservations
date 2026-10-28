@@ -14,8 +14,8 @@ spring:
         acknowledge-mode: manual
         default-requeue-rejected: false
   datasource:
-    url: ${DB_URL:jdbc:postgresql://andesstay-db.cmzs4nqytikw.us-east-1.rds.amazonaws.com:5432/andesstay}
-    username: ${RESERVATIONS_DB_USER:postgres}
+    url: ${DB_URL}
+    username: ${RESERVATIONS_DB_USER}
     password: ${RESERVATIONS_DB_PASSWORD:}
     driver-class-name: org.postgresql.Driver
   # JPA/Hibernate: open-in-view desactivado (la conexión a la base no queda abierta durante toda la petición).
