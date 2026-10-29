@@ -11,7 +11,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -41,10 +41,10 @@ public class RabbitAdminController {
     private static final String QUEUE_PREFIX = "q.admin.";
     private static final String EXCHANGE_PREFIX = "andesstay.admin.";
     private static final String NAME_REGEX = "[A-Za-z0-9][A-Za-z0-9._-]{0,127}";
-    private final RabbitAdmin rabbitAdmin;
+    private final AmqpAdmin rabbitAdmin;
     private final RestClient management;
 
-    public RabbitAdminController(RabbitAdmin rabbitAdmin, RestClient.Builder builder,
+    public RabbitAdminController(AmqpAdmin rabbitAdmin, RestClient.Builder builder,
         @Value("${rabbitmq.management-url}") String managementUrl,
         @Value("${rabbitmq.username}") String username,
         @Value("${rabbitmq.password}") String password) {
